@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import javax.persistence.ManyToOne;
-import java.util.List;
-
 @RestController
 @RequestMapping("api/plane/")
 public class PlaneController {
@@ -22,7 +19,6 @@ public class PlaneController {
 
     @Autowired
     private AirportRepository airportRepository;
-
 
 
     // Creates the data for 'plane'
@@ -37,5 +33,6 @@ public class PlaneController {
         return planeRepository.findAll();
     }
 }
+
 
 
