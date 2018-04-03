@@ -11,20 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("api/airport/")
+@RequestMapping("api/airport")
 public class AirportController {
 
     @Autowired
     private AirportRepository airportRepository;
 
 
-    // Creates the data for 'plane'
+
+    // Creates the data for 'Airport'
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Airport create(@RequestBody Airport airport) {
         return airportRepository.save(airport);
     }
 
-    // Gets the data from 'plane'
+    // Gets the data from 'Airport'
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Iterable<Airport> getAll() {
         return airportRepository.findAll();

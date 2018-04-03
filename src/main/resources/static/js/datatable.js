@@ -1,21 +1,21 @@
 $(document).ready(function() {
 
-        $('#flightTable').DataTable( {
+        $('#planeTable').DataTable( {
                 "order": [[ 0, "asc" ]],
                 "ajax": {
                         url: 'http://localhost:8080/api/plane',
                         dataSrc: ''
                     },
                 "columns": [
-                    { "data": "planeId" },
                     { "data": "planeBrand" },
-                    { "data": "fuel"},
+                    { "data": "fuel" },
+                    { "data": "fuelCapacity" },
                     { "data": function( data, type, row){
 
                         var toReturn = "";
 
-                        $.each(data.reservedTable, function (index, current){
-                            toReturn = toReturn + current.airportNumber + ", ";
+                        $.each(data.flightTable, function (index, current){
+                            toReturn = toReturn + current.airportName + ", ";
                         });
 
                         return toReturn;
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 
     // Functionality for interaction when clicking on rows of the table
-        $('#flightTable tbody').on( 'click', 'tr', function () {
+        $('#planeTable tbody').on( 'click', 'tr', function () {
             console.log("hallo ik heb geklikt");
             if ( $(this).hasClass('selected') ) {
                 $(this).removeClass('selected');
@@ -35,10 +35,10 @@ $(document).ready(function() {
             else {
                 deselect();
                 $(this).addClass('selected');
-                var table = $('#reservationTable').DataTable();
+                var table = $('#planeTable').DataTable();
                 var data = table.row(this).data();
                 console.log(data);
-                apiGetSingleReservation(data.id);
+                apiGetSinglePlane(data.id);
                 $('#myModal').modal('toggle');
             }
         });
@@ -46,7 +46,7 @@ $(document).ready(function() {
 } );
 
 function getData() {
-      var api = "http://localhost:8080/api/reservation";
+      var api = "http://localhost:8080/api/plane";
         $.get(api, function(data){
             if (data){
                 setData(data);
@@ -55,14 +55,14 @@ function getData() {
 }
 
 function setData(data){
-    $("#reservationTable").DataTable().clear();
-    $("#reservationTable").DataTable().rows.add(data);
-    $("#reservationTable").DataTable().columns.adjust().draw();
+    $("#planeTable").DataTable().clear();
+    $("#planeTable").DataTable().rows.add(data);
+    $("#planeTable").DataTable().columns.adjust().draw();
 }
 
-// Get the data of a reservation using an id
-function apiGetSingleReservation(id){
-    var api = "http://localhost:8080/api/reservation/" + id;
+// Get the data of a plane using an id
+function apiGetSinglePlane(planeId){
+    var api = "http://localhost:8080/api/plane/" + planeId;
     $.get(api, function(data){
         if (data){
             fillUpdateDiv(data);
@@ -70,26 +70,20 @@ function apiGetSingleReservation(id){
     });
 }
 
-// Fill the form with reservationdata when updating the reservation
-function fillUpdateDiv(reservation){
+// Fill the form with planedata when updating the plane
+function fillUpdateDiv(plane){
 
-    console.log(reservation);
-    $("#btndelete").attr('onclick', 'submitDelete(' + reservation.id + ');');
-    $("#btnsubmit").attr('onclick', 'submitEdit(' + reservation.id + ');');
-    document.getElementById("modal-title").innerHTML="Edit Reservation";
-    $("#firstName").val(reservation.firstName);
-    $("#lastName").val(reservation.lastName);
-    $("#amountOfPeople").val(reservation.amountOfPeople);
-    $("#reservationTime").val(reservation.reservationTime);
-   // $("#tableNumber").val(reservation.tableNumber);
-    /*$("#postalCode").val(guest.postalCode);
-    $("#city").val(guest.city);
-    $("#country").val(guest.country);
-    $("#phoneNumber").val(guest.phoneNumber);
-    $("#mailAddress").val(guest.mailAddress);
-    */
+    console.log(plane);
+    $("#btndelete").attr('onclick', 'submitDelete(' + plane.planeId + ');');
+    $("#btnsubmit").attr('onclick', 'submitEdit(' + plane.planeId + ');');
+    document.getElementById("modal-title").innerHTML="Edit Plane information";
+    $("#planeBrand").val(plane.planeBrand);
+    $("#fuel").val(plane.fuel);
+    $("#fuelCapacity").val(plane.fuelCapacity);
+
     $("#confirmbutton").css('display', 'inline-block');
-    deleteID = reservation.id;
+    deleteID = plane.planeId;
+
     var elem = '<button type="button" class="btn btn-danger" onclick="submitDelete();">Confirm delete</button>';
     $('#confirmbutton').popover({
         animation:true,
@@ -101,23 +95,21 @@ function fillUpdateDiv(reservation){
 
 // Deselect all items in the table
 function deselect(){
-    $('#reservationTable tr.selected').removeClass('selected');
-    // rloman dit moet straks terug. ik denk dat dit het modal form is
-//    document.getElementById("reservationForm").reset();
-}
+    $('#planeTable tr.selected').removeClass('selected');
+   }
 
 // Submit the edited data in the form to the database
 function submitEdit(id){
 // shortcut for filling the formData as a JavaScript object with the fields in the form
     console.log("Formdata");
-    var formData = $("#reservationForm").serializeArray().reduce(function(result, object){ result[object.name] = object.value; return result}, {});
+    var formData = $("#planeForm").serializeArray().reduce(function(result, object){ result[object.name] = object.value; return result}, {});
     console.log(formData);
-    var reservationNumber = id;
+    var planeId = id;
     for(var key in formData){
         if(formData[key] == "" || formData == null) delete formData[key];
     }
     $.ajax({
-        url:"/api/reservation/" + reservationNumber,
+        url:"/api/plane/" + id,
         type:"put",
         data: JSON.stringify(formData),
         contentType: "application/json; charset=utf-8",
@@ -130,13 +122,13 @@ function submitEdit(id){
     $('#myModal').modal('toggle');
 }
 
-// Delete the reservation in the database with the corresponding id
+// Delete the plane in the database with the corresponding id
 function submitDelete(){
     console.log("Deleting");
-    var formData = $("#reservationForm").serializeArray().reduce(function(result, object){ result[object.name] = object.value; return result}, {});
-    var reservationNumber = deleteID;
+    var formData = $("#planeForm").serializeArray().reduce(function(result, object){ result[object.name] = object.value; return result}, {});
+    var planeId = deleteID;
     $.ajax({
-        url:"/api/reservation/" + reservationNumber,
+        url:"/api/plane/" + planeId,
         type:"delete",
         data: JSON.stringify(formData),
         success: getData,
