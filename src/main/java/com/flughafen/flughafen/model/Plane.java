@@ -1,9 +1,7 @@
 package com.flughafen.flughafen.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Plane {
@@ -11,28 +9,32 @@ public class Plane {
     //Properties of the plane
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long planeid;
+    private long planeId;
 
-    private String planebrand;
+    private String planeBrand;
     private long fuel;
-    private long fuelcapacity;
+    private long fuelCapacity;
+
+    @OneToMany
+    private List<Plane> planes;
 
 
     //Getters & Setters
-    public long getPlaneid() {
-        return planeid;
+
+    public long getPlaneId() {
+        return planeId;
     }
 
-    public void setPlaneid(long planeid) {
-        this.planeid = planeid;
+    public void setPlaneId(long planeId) {
+        this.planeId = planeId;
     }
 
-    public String getPlanebrand() {
-        return planebrand;
+    public String getPlaneBrand() {
+        return planeBrand;
     }
 
-    public void setPlanebrand(String planebrand) {
-        this.planebrand = planebrand;
+    public void setPlaneBrand(String planeBrand) {
+        this.planeBrand = planeBrand;
     }
 
     public long getFuel() {
@@ -43,12 +45,19 @@ public class Plane {
         this.fuel = fuel;
     }
 
-    public long getFuelcapacity() {
-        return fuelcapacity;
+    public long getFuelCapacity() {
+        return fuelCapacity;
     }
 
-    public void setFuelcapacity(long fuelcapacity) {
-        this.fuelcapacity = fuelcapacity;
+    public void setFuelCapacity(long fuelCapacity) {
+        this.fuelCapacity = fuelCapacity;
     }
 
+    public List<Plane> getPlanes() {
+        return planes;
+    }
+
+    public void setPlanes(List<Plane> planes) {
+        this.planes = planes;
+    }
 }
