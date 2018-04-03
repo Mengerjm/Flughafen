@@ -7,6 +7,8 @@ $(document).ready(function() {
                         dataSrc: ''
                     },
                 "columns": [
+
+                    { "data": "planeId" },
                     { "data": "planeBrand" },
                     { "data": "fuel" },
                     { "data": "fuelCapacity" },
@@ -14,7 +16,7 @@ $(document).ready(function() {
 
                         var toReturn = "";
 
-                        $.each(data.flightTable, function (index, current){
+                        $.each(data.planeTable, function (index, current){
                             toReturn = toReturn + current.airportName + ", ";
                         });
 

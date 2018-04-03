@@ -19,13 +19,11 @@
     function postData() {
         // Get values from input texts.
         var planeInput = {
-            planeBrand: $("#planeBrand").val(),
-            fuel: Number($("#fuel").val()),
-            fuelCapacity: Number($("#fuelCapacity").val())
+            planeBrand: $("#planeBrandInput").val(),
+            fuel: Number($("#fuelInput").val()),
+            fuelCapacity: Number($("#fuelCapacityInput").val())
         };
  }
-       // Get values from input texts.
-        var inputName = $("#name").val();
 
         var newPlaneObject = {
             planeBrand : planeBrand

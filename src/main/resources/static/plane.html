@@ -5,57 +5,65 @@
     <!--css imports-->
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--js imports-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/planelogic.js"></script>
+    <script src="js/datatable.js"></script>
+
     <title>Plane page</title>
 </head>
 <body>
 
-<!--
-<input type="text" id="planeBrand" name="plane" placeholder="Add brand of plane">
-<input type="text" id="fuelCapacity" name="fuel capacity" placeholder="set fuel capacity">
 
-<button type="button" onclick="postData();">Save plane</button>
+<input type="text" id="planeBrandInput" name="plane" placeholder="Add brand of plane">
+<input type="text" id="fuelCapacityInput" name="fuel capacity" placeholder="set fuel capacity">
+<input type="text" id="fuelInput" name="fuel" placeholder="set amount of fuel">
 
--->
-
+<button type="button" id="addButton">Save plane</button>
 
 
 
+<table id="planeTable" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Plane Brand</th>
+        <th>Fuel Capacity</th>
+        <th>Fuel</th>
+         </tr>
+    </thead>
+</table>
 
-
-<button type="button" class="btn btn-info" id="modalButton">Add a plane</button>
-<div class="modal fade" id="myModalInput" role="dialog">
+<div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="modal-titleInput">Your plane</h3>
+                <h3 class="modal-title" id="modal-title">Title</h3>
             </div>
             <div class="modal-body">
                 <form id="planeForm" enctype='text/plain'>
+                    First name:<br>
+                    <input type='text' class="form-control" name='planeBrand' id="planeBrand"><br>
+                    Last name:<br>
+                    <input type='text' class="form-control" name='fuelCapacity' id="fuelCapacity"><br>
+                    Amount of people<br>
+                    <input type='text' class="form-control" name='fuel' id="fuel"><br>
+                    </form>
 
-                    <h5 class="test">Plane Brand:</h5>
-                    <input type="text" name="Brand of plane" id="planeBrand"/>
-                    <h5 class="test">Fuel capacity:</h5>
-                    <input type="text" name="fuel capacity" id="fuelCapacity"/>
-                    <h5 class="test">Fuel:</h5>
-                    <input type="text" name="fuel" id="fuel">
-
-                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="addButton">Add plane</button>
-                <button type="button" class="btn btn-default" id="btncloseInput" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnsubmit">Submit</button>
+                <a href="#" id="confirmbutton" data-title="Are you sure?" data-trigger="focus" data-toggle="clickover"
+                   data-placement="top" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-default" id="btnclose" onclick="deselect()" data-dismiss="modal">
+                    Close
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 
-<p id="plane">data?</p>
 
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="js/planelogic.js"></script>
-<script src="js/datatable.js"></script>
 
 </body>
 </html>
