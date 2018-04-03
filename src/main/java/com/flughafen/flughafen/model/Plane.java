@@ -1,28 +1,24 @@
-package model;
+package com.flughafen.flughafen.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Plane {
 
     //Properties of the plane
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long planeid;
+
     private String planebrand;
     private long fuel;
     private long fuelcapacity;
 
 
-    //Added a line so it's retrievable by springboot
-    public Plane() {
-
-    }
-
-    //Constructor
-    public Plane(String planebrand, long fuel, long fuelcapacity) {
-        this.planebrand = planebrand;
-        this.fuel = fuel;
-        this.fuelcapacity = fuelcapacity;
-    }
-
-
-
+    //Getters & Setters
     public long getPlaneid() {
         return planeid;
     }
